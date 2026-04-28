@@ -1,0 +1,7 @@
+node_modules
+dist
+.env
+.env.local
+*.log
+BofanMax_*.docx
+BofanMax_*.pdf
