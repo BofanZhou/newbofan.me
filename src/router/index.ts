@@ -6,6 +6,8 @@ import ContactPage from '@/pages/ContactPage.vue'
 import HomePage from '@/pages/HomePage.vue'
 import NotFoundPage from '@/pages/NotFoundPage.vue'
 import ProjectDetailPage from '@/pages/ProjectDetailPage.vue'
+import AdminPage from '@/pages/AdminPage.vue'
+import AdminEditorPage from '@/pages/AdminEditorPage.vue'
 import type { Locale } from '@/data/types'
 
 const localePattern = '/:locale(zh|en)'
@@ -23,6 +25,8 @@ export const router = createRouter({
     { path: `${localePattern}/blog`, name: 'blog', component: BlogPage },
     { path: `${localePattern}/blog/:slug`, name: 'blog-detail', component: BlogDetailPage },
     { path: `${localePattern}/projects/:id`, name: 'project-detail', component: ProjectDetailPage },
+    { path: `${localePattern}/admin`, name: 'admin', component: AdminPage },
+    { path: `${localePattern}/admin/editor`, name: 'admin-editor', component: AdminEditorPage },
     { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundPage },
   ],
 })

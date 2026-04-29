@@ -7,9 +7,7 @@
     <div class="article-tags">
       <TagPill v-for="tag in post.tags" :key="tag">{{ tag }}</TagPill>
     </div>
-    <div class="article-body">
-      <p>{{ post.content[locale] }}</p>
-    </div>
+    <div class="article-body" v-html="post.content[locale]" />
     <div class="article-comments">
       <h3>{{ locale === 'zh' ? '评论' : 'Comments' }}</h3>
       <Waline :serverURL="serverURL" :path="path" :lang="locale" />
