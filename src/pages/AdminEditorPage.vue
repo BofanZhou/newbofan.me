@@ -170,10 +170,30 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { marked } from 'marked'
 import { blogPosts } from '@/data/blog'
 import { useAdminStore } from '@/stores/admin'
 import type { BlogPost, Locale } from '@/data/types'
+
+function simpleMarkdownToHtml(md: string): string {
+  if (!md) return ''
+  let html = md
+    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2" />')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/^\- (.*$)/gim, '<li>$1</li>')
+  html = html.split('\n').map(line => {
+    if (line.trim().startsWith('<') && !line.trim().startsWith('<br>')) {
+      return line
+    }
+    return line + '<br>'
+  }).join('')
+  return html
+}
 
 const route = useRoute()
 const router = useRouter()
@@ -214,7 +234,7 @@ const isValid = computed(() => {
 
 const previewHtml = computed(() => {
   const content = activeTab.value === 'preview' ? form.content_zh : ''
-  return marked.parse(content) as string
+  return simpleMarkdownToHtml(content)
 })
 
 watch(tagsInput, (val) => {
