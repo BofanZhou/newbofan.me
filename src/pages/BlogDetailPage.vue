@@ -10,6 +10,10 @@
     <div class="article-body">
       <p>{{ post.content[locale] }}</p>
     </div>
+    <div class="article-comments">
+      <h3>{{ locale === 'zh' ? '评论' : 'Comments' }}</h3>
+      <Waline :serverURL="serverURL" :path="path" :lang="locale" />
+    </div>
   </article>
   <NotFoundPage v-else />
 </template>
@@ -17,12 +21,37 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
+import { Waline } from '@waline/client/component'
 import type { Locale } from '@/data/types'
 import { blogPosts } from '@/data/blog'
 import TagPill from '@/components/common/TagPill.vue'
 import NotFoundPage from './NotFoundPage.vue'
 
+import '@waline/client/style'
+
 const route = useRoute()
 const locale = computed(() => (route.params.locale === 'en' ? 'en' : 'zh') as Locale)
 const post = computed(() => blogPosts.find((item) => item.slug === route.params.slug))
+
+const serverURL = 'https://acmipin.cn'
+const path = computed(() => route.path)
 </script>
+
+<style scoped>
+.article-comments {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.article-comments h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: inherit;
+}
+
+.dark .article-comments {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+</style>
