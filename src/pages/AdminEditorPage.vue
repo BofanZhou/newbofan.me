@@ -48,7 +48,7 @@
 
       <!-- 主编辑区 -->
       <div class="editor-main">
-        <div v-if="!selectedPost" class="editor-empty">
+        <div v-if="!selectedPost && !isCreatingNew" class="editor-empty">
           <p>{{ locale === 'zh' ? '请选择一篇文章或创建新文章' : 'Select a post or create a new one' }}</p>
         </div>
 
@@ -220,6 +220,7 @@ const saving = ref(false)
 const message = ref('')
 const messageType = ref('success')
 const tagsInput = ref('')
+const isCreatingNew = ref(false)
 
 const form = reactive({
   id: '',
@@ -252,6 +253,7 @@ watch(tagsInput, (val) => {
 
 function selectPost(post: BlogPost) {
   selectedPost.value = post
+  isCreatingNew.value = false
   form.id = post.id
   form.slug = post.slug
   form.title_zh = post.title.zh
@@ -278,6 +280,7 @@ function selectPost(post: BlogPost) {
 
 function createNewPost() {
   selectedPost.value = null
+  isCreatingNew.value = true
   form.id = ''
   form.slug = ''
   form.title_zh = ''
@@ -330,7 +333,7 @@ async function savePost() {
   
   try {
     const owner = import.meta.env.VITE_GITHUB_OWNER || 'BofanZhou'
-    const repo = import.meta.env.VITE_GITHUB_REPO || 'bofan'
+    const repo = import.meta.env.VITE_GITHUB_REPO || 'newbofan.me'
     const path = `content/posts/${form.slug}.md`
     const content = generateMarkdown()
     const contentBase64 = btoa(unescape(encodeURIComponent(content)))
@@ -399,7 +402,7 @@ async function deletePost() {
   
   try {
     const owner = import.meta.env.VITE_GITHUB_OWNER || 'BofanZhou'
-    const repo = import.meta.env.VITE_GITHUB_REPO || 'bofan'
+    const repo = import.meta.env.VITE_GITHUB_REPO || 'newbofan.me'
     const path = `content/posts/${form.slug}.md`
     
     // 获取 sha
