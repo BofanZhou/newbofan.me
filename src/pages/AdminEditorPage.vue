@@ -200,6 +200,15 @@ const router = useRouter()
 const adminStore = useAdminStore()
 const locale = computed(() => (route.params.locale === 'en' ? 'en' : 'zh') as Locale)
 
+// 处理 OAuth 回调的 token（从 URL 查询参数读取）
+const tokenFromUrl = route.query.token as string
+const usernameFromUrl = route.query.login as string
+if (tokenFromUrl && usernameFromUrl) {
+  adminStore.setAuth(tokenFromUrl, usernameFromUrl)
+  // 清除 URL 参数
+  router.replace({ path: route.path, query: {} })
+}
+
 // 未登录重定向
 if (!adminStore.isAuthenticated) {
   router.push(`/${locale.value}/admin`)
