@@ -57,7 +57,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
     
     // 重定向回前端，带上 token
-    const redirectUrl = new URL('/admin/editor', process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:5173')
+    const siteUrl = process.env.SITE_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:5173')
+    const redirectUrl = new URL('/admin/editor', siteUrl)
     redirectUrl.searchParams.set('token', access_token)
     redirectUrl.searchParams.set('login', userData.login)
     
