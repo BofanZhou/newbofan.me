@@ -2,7 +2,8 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
   const clientId = process.env.GITHUB_CLIENT_ID
-  const siteUrl = process.env.SITE_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+  const rawSiteUrl = process.env.SITE_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+  const siteUrl = rawSiteUrl.replace(/\/$/, '')
   const redirectUri = `${siteUrl}/api/auth/callback`
   
   const scope = 'repo'
