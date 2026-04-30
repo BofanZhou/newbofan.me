@@ -8,10 +8,16 @@ description_en: A starting point for portfolio, technical writing, project revie
 date: 2026-04-20
 category_zh: 项目记录
 category_en: Project Logs
-tags: ['Portfolio', 'Vue', 'Growth']
+tags:
+  - Portfolio
+  - Vue
+  - Growth
 lang: both
 content_en: |
+  
   bofan is more than a resume page. I want it to become a long-term digital space where learning, projects, code, photography, and life records can live together. The first version focuses on structure and content, with Markdown blogs and GitHub automation planned later.
+  
 ---
 
-bofan 不只是一个简历页面。我希望它成为一个长期更新的数字空间，把学习、项目、代码、摄影和生活记录放在同一个清晰的界面里。第一版先完成结构和内容，后续会加入 Markdown 博客、GitHub 自动更新和更多作品细节。
+
+bofan.me 不只是一个简历页面。我希望它成为一个长期更新的数字空间，把学习、项目、代码、摄影和生活记录放在同一个清晰的界面里。第一版先完成结构和内容，后续会加入 Markdown 博客、GitHub 自动更新和更多作品细节。
