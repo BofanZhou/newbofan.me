@@ -39,23 +39,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     
     const userData = await userResponse.json()
     
-    // 检查是否有仓库写权限
-    const repoResponse = await fetch(
-      `https://api.github.com/repos/${process.env.GITHUB_REPO_OWNER}/${process.env.GITHUB_REPO_NAME}`,
-      {
-        headers: {
-          'Authorization': `Bearer ${access_token}`,
-          'Accept': 'application/vnd.github.v3+json',
-        },
-      }
-    )
-    
-    const repoData = await repoResponse.json()
-    
-    if (!repoData.permissions?.push) {
-      return res.status(403).json({ error: 'No write permission to repository' })
-    }
-    
     // 重定向回前端，带上 token
     const rawSiteUrl = process.env.SITE_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:5173')
     const siteUrl = rawSiteUrl.replace(/\/$/, '')
