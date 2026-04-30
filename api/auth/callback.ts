@@ -42,11 +42,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // 重定向回前端，带上 token
     const rawSiteUrl = process.env.SITE_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:5173')
     const siteUrl = rawSiteUrl.replace(/\/$/, '')
-    const redirectUrl = new URL('/admin/editor', siteUrl)
-    redirectUrl.searchParams.set('token', access_token)
-    redirectUrl.searchParams.set('login', userData.login)
+    // 默认重定向到中文编辑器，带上 token
+    const redirectUrl = `${siteUrl}/zh/admin/editor?token=${encodeURIComponent(access_token)}&login=${encodeURIComponent(userData.login)}`
     
-    res.redirect(redirectUrl.toString())
+    res.redirect(redirectUrl)
   } catch (error) {
     console.error('OAuth error:', error)
     res.status(500).json({ error: 'Internal server error' })
